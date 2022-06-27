@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBGE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/bootstrap.min.css">
+    <script type="text/javascript" src="../assets/chart.min.js"></script>
+    <script type="text/javascript" src="../assets/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+
+
+    <header>
+        <img src="ibge-logo.png" alt="">
+    </header>
+    <main>
+        <div class="d-flex justify-content-center">
+            <div class="col-10">
+                <div class="row justify-content-between text-white">
+                    <div class="col-lg-4 col-12 custom-bg p-5 rounded mb-3">
+                        <h3 class="titulo">Selecione os filtros para realizar a Busca</h3>
+                        <div class="container-select row ">
+                            <div class="col-lg-4 mb-2">
+                                <select name="UF" class="form-control" id="uf">
+                                    <option value="">Selecione</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <select name="cidade" class="form-control" id="cidade">
+                                    <option value="selecione" selected>Selecione a cidade</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                <select id="anos" class="form-control" onchange="update()">
+                                    <option value="2001">2001</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="container-check pb-3">
+                            <div class="form-check">
+                                <label for="area"><input class="form-check-input position-static" type="checkbox"
+                                        name="consultaArea" id="area">Àrea
+                                    territorial</label>
+                            </div>
+                            <div class="form-check ">
+                                <label for="pop"><input class="form-check-input position-static" type="checkbox"
+                                        name="consultaPop" id="pop">População</label>
+                            </div>
+                            <div class="form-check ">
+                                <label for="pib"><input class="form-check-input position-static" type="checkbox"
+                                        name="consultaPib" id="pib">PIB</label>
+                            </div>
+                            <div class="form-check ">
+                                <label for="esc"><input class="form-check-input position-static" type="checkbox"
+                                        name="consultaEsc" id="esc">Escolaridade</label>
+                            </div>
+                            <div class="form-check ">
+                                <label for="dens"><input class="form-check-input position-static" type="checkbox"
+                                        name="consultaDens" id="dens">Densidade
+                                    Demográfica</label>
+                            </div>
+                        </div>
+                        <button class="button btn btn-primary" type="submit" onclick="lil()">Realizar Busca</button>
+                    </div>
+
+                    <div class="col-lg-7 col-12 custom-bg p-5 rounded  mb-3">
+                        <div class="container2" id="data" hidden>
+                            <div class="headerContainer">
+                                <h1 id="munName"></h1>
+                                <h2 id="estName"></h2>
+                            </div>
+                            <table id="resultBody">
+                            </table>
+                            <button class="btn btn-primary" onclick="tableToExcel('resultBody')"
+                                id="exportButton">Exportar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outro box -->
+        <div class="d-flex justify-content-center">
+            <div class="col-10">
+                <div class="row justify-content-between text-white">
+                    <div class="col-lg-4 col-12 ">
+                        <div class="custom-bg p-5 rounded mb-3 row">
+                            <h3 class="titulo">Selecione os Filtros para realizar a comparação</h3>
+                            <div class="row m-0 p-0">
+                                <div class="col-lg-6 mb-2">
+                                    <select name="uf1" class="form-control" id="compEst1">
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <select name="uf2" class="form-control" id="compEst2">
+                                    </select>
+                                </div>
+                                <div class="col-lg-12 mb-2">
+                                    <select name="chartType" class="form-control" id="chartType">
+                                        <option value="selecione">Selecione o tipo de gráfico</option>
+                                        <option value="line">Linha</option>
+                                        <option value="bar">Barra horizontal</option>
+                                        <option value="bar">Barra vertical</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <button class="button btn btn-primary" type="submit"
+                                    onclick="compararEstados()">Realizar
+                                    Busca</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-12 custom-bg p-5 rounded mb-3">
+                        <div class="bg-white rounded" id="meuChart">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="app.js"></script>
+
+</body>
+
+</html>
